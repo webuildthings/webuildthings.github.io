@@ -20,21 +20,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="低频晶振32.768KHz是蓝牙协议栈提供时间基准可以去掉外部低频晶振，使用RC， 软件上进行简单配置即可：注意,在同等条件下，使用内部RC要比使用外部晶振功耗上会多1uA左右     123456789101112131415161718192021222324252627282930313233343536373839404142434445&#x2F;&#x2F;&#x3D;&#x3D;&amp;#">
+  <meta name="description" content="超时使用RTC计数器辅助实现但在实际使用中发现有时会出现死机现象     现像:死机     代码:">
 <meta property="og:type" content="article">
-<meta property="og:title" content="nRF52832开发记录-使用内部32k晶振">
-<meta property="og:url" content="http://example.com/2020/06/15/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-%E4%BD%BF%E7%94%A8%E5%86%85%E9%83%A832k%E6%99%B6%E6%8C%AF/index.html">
+<meta property="og:title" content="nRF52832开发记录-超时逻辑导致死机">
+<meta property="og:url" content="http://example.com/2020/07/22/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-%E8%B6%85%E6%97%B6%E9%80%BB%E8%BE%91%E5%AF%BC%E8%87%B4%E6%AD%BB%E6%9C%BA/index.html">
 <meta property="og:site_name" content="webuildthings">
-<meta property="og:description" content="低频晶振32.768KHz是蓝牙协议栈提供时间基准可以去掉外部低频晶振，使用RC， 软件上进行简单配置即可：注意,在同等条件下，使用内部RC要比使用外部晶振功耗上会多1uA左右     123456789101112131415161718192021222324252627282930313233343536373839404142434445&#x2F;&#x2F;&#x3D;&#x3D;&amp;#">
+<meta property="og:description" content="超时使用RTC计数器辅助实现但在实际使用中发现有时会出现死机现象     现像:死机     代码:">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-06-15T12:12:35.000Z">
-<meta property="article:modified_time" content="2020-09-02T07:24:06.476Z">
+<meta property="article:published_time" content="2020-07-22T11:20:19.000Z">
+<meta property="article:modified_time" content="2020-11-04T08:55:35.901Z">
 <meta property="article:author" content="wusk">
 <meta property="article:tag" content="BLE">
 <meta property="article:tag" content="Nordic">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2020/06/15/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-%E4%BD%BF%E7%94%A8%E5%86%85%E9%83%A832k%E6%99%B6%E6%8C%AF/">
+<link rel="canonical" href="http://example.com/2020/07/22/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-%E8%B6%85%E6%97%B6%E9%80%BB%E8%BE%91%E5%AF%BC%E8%87%B4%E6%AD%BB%E6%9C%BA/">
 
 
 <script id="page-configurations">
@@ -47,7 +47,7 @@
   };
 </script>
 
-  <title>nRF52832开发记录-使用内部32k晶振 | webuildthings</title>
+  <title>nRF52832开发记录-超时逻辑导致死机 | webuildthings</title>
   
 
 
@@ -163,7 +163,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/06/15/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-%E4%BD%BF%E7%94%A8%E5%86%85%E9%83%A832k%E6%99%B6%E6%8C%AF/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/07/22/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-%E8%B6%85%E6%97%B6%E9%80%BB%E8%BE%91%E5%AF%BC%E8%87%B4%E6%AD%BB%E6%9C%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -176,7 +176,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          nRF52832开发记录-使用内部32k晶振
+          nRF52832开发记录-超时逻辑导致死机
         </h1>
 
         <div class="post-meta">
@@ -186,14 +186,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-06-15 20:12:35" itemprop="dateCreated datePublished" datetime="2020-06-15T20:12:35+08:00">2020-06-15</time>
+              <time title="创建时间：2020-07-22 19:20:19" itemprop="dateCreated datePublished" datetime="2020-07-22T19:20:19+08:00">2020-07-22</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-02 15:24:06" itemprop="dateModified" datetime="2020-09-02T15:24:06+08:00">2020-09-02</time>
+                <time title="修改时间：2020-11-04 16:55:35" itemprop="dateModified" datetime="2020-11-04T16:55:35+08:00">2020-11-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -220,8 +220,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>低频晶振32.768KHz是蓝牙协议栈提供时间基准<br>可以去掉外部低频晶振，使用RC， 软件上进行简单配置即可：<br>注意,在同等条件下，使用内部RC要比使用外部晶振功耗上会多1uA左右    </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; &lt;o&gt; NRF_SDH_CLOCK_LF_SRC  - SoftDevice clock source. </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; &lt;0&#x3D;&gt; NRF_CLOCK_LF_SRC_RC </span><br><span class="line">&#x2F;&#x2F; &lt;1&#x3D;&gt; NRF_CLOCK_LF_SRC_XTAL </span><br><span class="line">&#x2F;&#x2F; &lt;2&#x3D;&gt; NRF_CLOCK_LF_SRC_SYNTH  </span><br><span class="line"></span><br><span class="line">#ifndef NRF_SDH_CLOCK_LF_SRC</span><br><span class="line">#define NRF_SDH_CLOCK_LF_SRC   0</span><br><span class="line">#endif</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F; &lt;o&gt; NRF_SDH_CLOCK_LF_RC_CTIV - SoftDevice calibration timer interval. </span><br><span class="line"></span><br><span class="line">#ifndef NRF_SDH_CLOCK_LF_RC_CTIV</span><br><span class="line">#define NRF_SDH_CLOCK_LF_RC_CTIV  16</span><br><span class="line">#endif </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; &lt;o&gt; NRF_SDH_CLOCK_LF_RC_TEMP_CTIV - SoftDevice calibration timer interval under constant temperature. </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; &lt;i&gt; How often (in number of calibration intervals) the RC oscillator shall be calibrated</span><br><span class="line">&#x2F;&#x2F; &lt;i&gt;  if the temperature has not changed.</span><br><span class="line"></span><br><span class="line">#ifndef NRF_SDH_CLOCK_LF_RC_TEMP_CTIV</span><br><span class="line">#define NRF_SDH_CLOCK_LF_RC_TEMP_CTIV   2</span><br><span class="line">#endif</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F; &lt;o&gt; NRF_SDH_CLOCK_LF_ACCURACY  - External clock accuracy used in the LL to compute timing. </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; &lt;0&#x3D;&gt; NRF_CLOCK_LF_ACCURACY_250_PPM </span><br><span class="line">&#x2F;&#x2F; &lt;1&#x3D;&gt; NRF_CLOCK_LF_ACCURACY_500_PPM </span><br><span class="line">&#x2F;&#x2F; &lt;2&#x3D;&gt; NRF_CLOCK_LF_ACCURACY_150_PPM </span><br><span class="line">&#x2F;&#x2F; &lt;3&#x3D;&gt; NRF_CLOCK_LF_ACCURACY_100_PPM </span><br><span class="line">&#x2F;&#x2F; &lt;4&#x3D;&gt; NRF_CLOCK_LF_ACCURACY_75_PPM </span><br><span class="line">&#x2F;&#x2F; &lt;5&#x3D;&gt; NRF_CLOCK_LF_ACCURACY_50_PPM </span><br><span class="line">&#x2F;&#x2F; &lt;6&#x3D;&gt; NRF_CLOCK_LF_ACCURACY_30_PPM </span><br><span class="line">&#x2F;&#x2F; &lt;7&#x3D;&gt; NRF_CLOCK_LF_ACCURACY_20_PPM </span><br><span class="line">&#x2F;&#x2F; &lt;8&#x3D;&gt; NRF_CLOCK_LF_ACCURACY_10_PPM </span><br><span class="line">&#x2F;&#x2F; &lt;9&#x3D;&gt; NRF_CLOCK_LF_ACCURACY_5_PPM </span><br><span class="line">&#x2F;&#x2F; &lt;10&#x3D;&gt; NRF_CLOCK_LF_ACCURACY_2_PPM </span><br><span class="line">&#x2F;&#x2F; &lt;11&#x3D;&gt; NRF_CLOCK_LF_ACCURACY_1_PPM  </span><br><span class="line"></span><br><span class="line">#ifndef NRF_SDH_CLOCK_LF_ACCURACY</span><br><span class="line">#define NRF_SDH_CLOCK_LF_ACCURACY  1</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+        <p>超时使用RTC计数器辅助实现<br>但在实际使用中发现有时会出现死机现象    </p>
+<h1 id="现像"><a href="#现像" class="headerlink" title="现像:"></a>现像:</h1><p>死机    </p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码:"></a>代码:</h1><a id="more"></a>  
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; RTC频率: fRTC [kHz] &#x3D; 32.768 &#x2F; (PRESCALER + 1 )</span><br><span class="line">#if (0 &#x3D;&#x3D; APP_TIMER_CONFIG_RTC_FREQUENCY)</span><br><span class="line">    #define RTC_CNT_MS      (33)        &#x2F;&#x2F; &#x2F;&#x2F; 当分频为0 时, 1ms 对应的 RTC 计数值</span><br><span class="line">#else</span><br><span class="line">    #error &quot;undefine RTC_CNT_MS&quot;</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;获取当前时间</span><br><span class="line">int getCurrentMs(void)</span><br><span class="line">&#123;</span><br><span class="line">  int scal_ms &#x3D; RTC_CNT_MS;</span><br><span class="line">  int timeCounter &#x3D; NRF_RTC1-&gt;COUNTER;</span><br><span class="line"> </span><br><span class="line">  return (timeCounter&#x2F;scal_ms);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(void)&#123;</span><br><span class="line">    int i &#x3D;0;</span><br><span class="line">    int startTime &#x3D; getCurrentMs();</span><br><span class="line">    int endTime&#x3D;0;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 只执行1秒</span><br><span class="line">    while(1)&#123;</span><br><span class="line">        i++;</span><br><span class="line">        endTime &#x3D; getCurrentMs();</span><br><span class="line">        if((endTime - startTime) &gt; 1000)&#123;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h1><p>Nordic nrf52832 RTC 计数器只有24位(0x00FFFFFF), 计数满后会清零翻转<br>这样会出现一种情况，在快翻转时获取到startTime,翻转后获取到的endTime就会比startTime小<br>即会导致 startTime &gt; endTime, 则永远不会超时，导致死机.     </p>
+<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>添加计数器翻转判断     </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 超时检测</span><br><span class="line"> * 输入:  startTime  起始时间,     单位ms</span><br><span class="line"> *       thTimeOut  超时时间阈值  单位ms</span><br><span class="line"> * 输出: 0 -- 未超时   1 -- 已超时</span><br><span class="line"> *&#x2F;</span><br><span class="line">int TIM_TimeOut(int startTime, int thTimeOut)&#123;</span><br><span class="line">    int currentT &#x3D; 0;</span><br><span class="line">    int tmp &#x3D; 0;</span><br><span class="line">    currentT &#x3D; TIM_getCurrentMs();</span><br><span class="line">    if(0 &gt;&#x3D; thTimeOut)&#123;</span><br><span class="line">        return 1;</span><br><span class="line">    &#125;    </span><br><span class="line"></span><br><span class="line">    if(currentT &lt; startTime)&#123;</span><br><span class="line">        &#x2F;&#x2F; 已翻转</span><br><span class="line">        tmp &#x3D; (RTC_MAX_MS &gt; startTime)?(RTC_MAX_MS - startTime):(startTime - RTC_MAX_MS);</span><br><span class="line">        if((tmp + currentT) &gt;&#x3D; thTimeOut)&#123;</span><br><span class="line">            return 1;</span><br><span class="line">        &#125;            </span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        &#x2F;&#x2F; 未翻转</span><br><span class="line">        if((currentT - startTime) &gt;&#x3D; thTimeOut)&#123;</span><br><span class="line">            return 1;</span><br><span class="line">        &#125;       </span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main(void)&#123;</span><br><span class="line">    int i &#x3D;0;</span><br><span class="line">    int startTime &#x3D; getCurrentMs();</span><br><span class="line">    int endTime&#x3D;0;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 只执行1秒</span><br><span class="line">    while(1)&#123;</span><br><span class="line">        i++;</span><br><span class="line">        if(1 &#x3D;&#x3D; TIM_TimeOut(startTime, 1000))&#123;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
 
 
     </div>
@@ -243,12 +250,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/06/15/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-nRFConnect/" rel="prev" title="nRF52832开发记录-nRFConnect">
-      <i class="fa fa-chevron-left"></i> nRF52832开发记录-nRFConnect
+    <a href="/2020/07/21/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-%E6%B6%88%E6%81%AF%E5%BA%8F%E5%88%97%E5%9B%BE/" rel="prev" title="nRF52832开发记录-消息序列图">
+      <i class="fa fa-chevron-left"></i> nRF52832开发记录-消息序列图
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/07/01/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-iOS%E8%93%9D%E7%89%99%E8%BF%9E%E6%8E%A5%E9%97%B4%E9%9A%94%E6%97%B6%E9%97%B4/" rel="next" title="nRF52832开发记录-iOS蓝牙连接间隔时间">
-      nRF52832开发记录-iOS蓝牙连接间隔时间 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/09/18/github%E5%8A%A0%E9%80%9F/" rel="next" title="github加速">
+      github加速 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -308,6 +315,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%B0%E5%83%8F"><span class="nav-number">1.</span> <span class="nav-text">现像:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">代码:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E6%9E%90%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">分析：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3"><span class="nav-number">4.</span> <span class="nav-text">解决</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
