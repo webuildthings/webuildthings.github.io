@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="nrf52832有三个 RTC协议栈使用了RTC0,  APP_TIMER使用了RTC1我们可以利RTC2实现日历      RTC 配置rtc频率如下：1f [kHz] &#x3D; 32.768 &#x2F; (PRESCALER + 1 ) 休眠执行sd_power_system_off() 函数后系统就会进到power off模式，这种模式下RTC是关闭的。要保持RTC持续工作你只能使用I">
+  <meta name="description" content="nrf52832有三个 RTC协议栈使用了RTC0,  APP_TIMER使用了RTC1我们可以利RTC2实现日历          RTC 配置rtc频率如下： 1f [kHz] &#x3D; 32.768 &#x2F; (PRESCALER + 1 ) 休眠noridc有两种休眠模式 System OFF 和 System ONSystem OFF 模式是深度休眠模式，将关闭cpu和所有外设S">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nRF52832开发记录-RTC日历">
 <meta property="og:url" content="http://example.com/2020/07/23/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-RTC%E6%97%A5%E5%8E%86/index.html">
 <meta property="og:site_name" content="webuildthings">
-<meta property="og:description" content="nrf52832有三个 RTC协议栈使用了RTC0,  APP_TIMER使用了RTC1我们可以利RTC2实现日历      RTC 配置rtc频率如下：1f [kHz] &#x3D; 32.768 &#x2F; (PRESCALER + 1 ) 休眠执行sd_power_system_off() 函数后系统就会进到power off模式，这种模式下RTC是关闭的。要保持RTC持续工作你只能使用I">
+<meta property="og:description" content="nrf52832有三个 RTC协议栈使用了RTC0,  APP_TIMER使用了RTC1我们可以利RTC2实现日历          RTC 配置rtc频率如下： 1f [kHz] &#x3D; 32.768 &#x2F; (PRESCALER + 1 ) 休眠noridc有两种休眠模式 System OFF 和 System ONSystem OFF 模式是深度休眠模式，将关闭cpu和所有外设S">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-07-23T10:33:25.000Z">
-<meta property="article:modified_time" content="2020-11-05T01:44:38.696Z">
+<meta property="article:modified_time" content="2020-11-05T02:46:38.415Z">
 <meta property="article:author" content="wusk">
 <meta property="article:tag" content="BLE">
 <meta property="article:tag" content="Nordic">
@@ -193,7 +193,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-05 09:44:38" itemprop="dateModified" datetime="2020-11-05T09:44:38+08:00">2020-11-05</time>
+                <time title="修改时间：2020-11-05 10:46:38" itemprop="dateModified" datetime="2020-11-05T10:46:38+08:00">2020-11-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -220,11 +220,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>nrf52832有三个 RTC<br>协议栈使用了RTC0,  APP_TIMER使用了RTC1<br>我们可以利RTC2实现日历    </p>
+        <p>nrf52832有三个 RTC<br>协议栈使用了RTC0,  APP_TIMER使用了RTC1<br>我们可以利RTC2实现日历        </p>
 <ol>
-<li>RTC 配置<br>rtc频率如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f [kHz] &#x3D; 32.768 &#x2F; (PRESCALER + 1 )</span><br></pre></td></tr></table></figure></li>
-<li>休眠<br>执行sd_power_system_off() 函数后系统就会进到power off模式，这种模式下RTC是关闭的。<br>要保持RTC持续工作你只能使用IDLE with RTC 这种模式<br>即不要调用sd_power_system_off()函数<br>只在Main.c中的主循环中调用idle_state_handle 函数，让softdevice自动做功耗管理即可</li>
-<li>实现<br>参见官方demo <a target="_blank" rel="noopener" href="https://github.com/NordicPlayground/nrf5-calendar-example">https://github.com/NordicPlayground/nrf5-calendar-example</a></li>
+<li><p>RTC 配置<br>rtc频率如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f [kHz] &#x3D; 32.768 &#x2F; (PRESCALER + 1 )</span><br></pre></td></tr></table></figure></li>
+<li><p>休眠<br>noridc有两种休眠模式 System OFF 和 System ON<br>System OFF 模式是深度休眠模式，将关闭cpu和所有外设<br>System ON  模式可以关闭cpu后外设继续工作<br>当使用RTC功能时只能使用System ON模式休眠，否则RTC会停止工作    </p>
+</li>
+<li><p>实现<br>参见官方demo <a target="_blank" rel="noopener" href="https://github.com/NordicPlayground/nrf5-calendar-example">https://github.com/NordicPlayground/nrf5-calendar-example</a></p>
+</li>
 </ol>
 
     </div>
@@ -250,8 +253,8 @@
       <i class="fa fa-chevron-left"></i> nRF52832开发记录-超时逻辑导致死机
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/09/18/github%E5%8A%A0%E9%80%9F/" rel="next" title="github加速">
-      github加速 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/07/25/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-%E4%BC%91%E7%9C%A0/" rel="next" title="nRF52832开发记录-休眠">
+      nRF52832开发记录-休眠 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -324,7 +327,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
