@@ -316,7 +316,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/07/25/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-%E4%BC%91%E7%9C%A0/" class="post-title-link" itemprop="url">nRF52832开发记录-休眠</a>
+            <a href="/2020/07/25/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-%E4%BC%91%E7%9C%A0/" class="post-title-link" itemprop="url">nRF52832开发记录-低功耗休眠</a>
         </h2>
 
         <div class="post-meta">
@@ -333,7 +333,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-05 11:12:23" itemprop="dateModified" datetime="2020-11-05T11:12:23+08:00">2020-11-05</time>
+                <time title="修改时间：2020-11-06 16:00:27" itemprop="dateModified" datetime="2020-11-06T16:00:27+08:00">2020-11-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -420,7 +420,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-05 10:46:38" itemprop="dateModified" datetime="2020-11-05T10:46:38+08:00">2020-11-05</time>
+                <time title="修改时间：2020-11-06 16:03:58" itemprop="dateModified" datetime="2020-11-06T16:03:58+08:00">2020-11-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -447,7 +447,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>nrf52832有三个 RTC<br>协议栈使用了RTC0,  APP_TIMER使用了RTC1<br>我们可以利RTC2实现日历        </p>
+          <p>nrf52832有三个 RTC<br>协议栈使用了RTC0,  APP_TIMER使用了RTC1<br>我们可以利RTC2实现日历<br>时钟配置及休眠实现比较关键       </p>
 <ol>
 <li><p>RTC 配置<br>rtc频率如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f [kHz] &#x3D; 32.768 &#x2F; (PRESCALER + 1 )</span><br></pre></td></tr></table></figure></li>
@@ -678,7 +678,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-04 15:31:38" itemprop="dateModified" datetime="2020-11-04T15:31:38+08:00">2020-11-04</time>
+                <time title="修改时间：2020-11-06 16:17:28" itemprop="dateModified" datetime="2020-11-06T16:17:28+08:00">2020-11-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -705,7 +705,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Nordic nRFConnect PC版本中的Hex下载工具没有读保护功能<br>Nordic蓝牙芯片的读保护功能需要使用 nrfjprog 工具实现    </p>
+          <p>当代码下载到芯片里后，可以使用工具将代码读出来<br>如果不希望别人读取你芯片内的代码，那就需要在下载代码时添加读保护功能<br>Nordic nRFConnect PC版本中的Hex下载工具没有读保护功能<br>Nordic蓝牙芯片的读保护功能需要使用 nrfjprog 工具实现    </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nrfjprog -f NRF52 --recover</span><br><span class="line">nrfjprog -f NRF52 --program xxx.hex --verify</span><br><span class="line">nrfjprog --rbp ALL</span><br></pre></td></tr></table></figure>
 <p>上面操作分别为：    </p>
 <ol>
