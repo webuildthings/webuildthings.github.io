@@ -889,7 +889,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-10 10:12:59" itemprop="dateModified" datetime="2020-12-10T10:12:59+08:00">2020-12-10</time>
+                <time title="修改时间：2020-12-10 10:16:38" itemprop="dateModified" datetime="2020-12-10T10:16:38+08:00">2020-12-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -916,7 +916,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>nRF52 系列有些IO口有多个功能可选，如果不配置则使用默认功能。具体可查看芯片手册。<br>NFC对应的IO口默认为NFC功能,如果要使用普通IO功能则必须手动配置为IO口。<br>nRF52832 NFC 对应的IO口为<br><code>NFC1--&gt;P0.09</code><br><code>NFC2--&gt;P0.10</code><br>要用这两个管脚做普通IO则必须做配置，如下：<br>在IDE中预定义宏<code>CONFIG_NFCT_PINS_AS_GPIOS</code>则将NFC对应的IO口设置为普通IO口.<br>如下图:            </p>
+          <p>nRF52 系列有些IO口有多个功能可选，如果不配置则使用默认功能。具体可查看芯片手册。<br>NFC对应的IO口默认为NFC功能,如果要使用普通IO功能则必须手动配置为IO口。<br>nRF52832 NFC 对应的IO口为<br><code>NFC1--&gt;P0.09</code><br><code>NFC2--&gt;P0.10</code><br>要用这两个管脚做普通IO则必须做配置：<br>在IDE中预定义宏<code>CONFIG_NFCT_PINS_AS_GPIOS</code>则将NFC对应的IO口设置为普通IO口.<br>如下图:            </p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/05/27/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-NFC%E5%81%9A%E6%99%AE%E9%80%9AIO/#more" rel="contents">
