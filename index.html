@@ -156,6 +156,327 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/25/NDK-%E9%A2%84%E7%BC%96%E8%AF%91%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E6%8A%A5%E9%94%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wusk">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="webuildthings">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/25/NDK-%E9%A2%84%E7%BC%96%E8%AF%91%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E6%8A%A5%E9%94%99/" class="post-title-link" itemprop="url">NDK-预编译第三方库报错</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-12-25 16:10:23 / 修改时间：16:13:56" itemprop="dateCreated datePublished" datetime="2020-12-25T16:10:23+08:00">2020-12-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>使用NDK封装SeetaFace2时，发生了一个错误，找了很久bug, 记录一下     </p>
+<h1 id="android-mk文件"><a href="#android-mk文件" class="headerlink" title="android.mk文件"></a>android.mk文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">include $(CLEAR_VARS)		# 清除LOCAL_PATH以外的变量</span><br><span class="line">LOCAL_MODULE :&#x3D; SeetaFaceRecognizer</span><br><span class="line">LOCAL_SRC_FILES +&#x3D; libSeetaFaceRecognizer.so</span><br><span class="line">include $(PREBUILT_SHARED_LIBRARY)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line">LOCAL_MODULE    :&#x3D; MySeetaFace</span><br><span class="line">LOCAL_SRC_FILES :&#x3D; $(wildcard $(LOCAL_PATH)&#x2F;src&#x2F;*.cpp)</span><br><span class="line"></span><br><span class="line">#添加第三方动态库</span><br><span class="line">LOCAL_SHARED_LIBRARIES :&#x3D; libSeetaFaceDetector </span><br><span class="line"></span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h1><p>make: *** [build-binary.mk:749: obj/local/armeabi-v7a/libSeetaFaceRecognizer.so] Error 1</p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>信息提示<code>libSeetaFaceRecognizer.so</code>库出错，那么只有两种可能,要么库本身有问题，要么找不到库<br>库是官方提供的,所以库本身不可能有问题<br>然后仔细检查文件夹，库确定是放在了正确的路径,所以库的位置应该没问题<br>调试工作卡住，不知哪里出了问题<br>最终仔细检测配置文件，才发现问题所在<br>问题出在<code>LOCAL_SRC_FILES += libSeetaFaceRecognizer.so</code><br>将 <code>+=</code> 改为 <code>:=</code>后顺利通过<br>即改为<code>LOCAL_SRC_FILES := libSeetaFaceRecognizer.so</code><br><code>+=</code>是追加的意思，<code>:=</code>是初始化的意思<br>但在添加c/c++源文件时不使用<code>:=</code> 而 直接使用 <code>+=</code>却没有问题,这个还不知道具体原因    </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/25/NDK-jni%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wusk">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="webuildthings">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/25/NDK-jni%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB/" class="post-title-link" itemprop="url">NDK-jni使用自定义类</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-12-25 16:08:20 / 修改时间：16:09:42" itemprop="dateCreated datePublished" datetime="2020-12-25T16:08:20+08:00">2020-12-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在jni在使用自定义类需要注意几个关键点:        </p>
+<ol>
+<li>javac生成jni头文件时要指定自定义类的位置</li>
+<li>获取到类、构造函数、字段的引用, 然后就可以进行取值或赋值
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/25/NDK-jni%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/25/NDK-%E7%94%9F%E6%88%90JNI%E5%A4%B4%E6%96%87%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wusk">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="webuildthings">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/25/NDK-%E7%94%9F%E6%88%90JNI%E5%A4%B4%E6%96%87%E4%BB%B6/" class="post-title-link" itemprop="url">NDK-生成JNI头文件</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-12-25 16:06:05 / 修改时间：16:07:51" itemprop="dateCreated datePublished" datetime="2020-12-25T16:06:05+08:00">2020-12-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>我们用c/c++写好的库，Java是没办法直接调用的，必通过JNI接口调用c/c++库<br>jni接口需要使用<code>javac</code>命令生成<br><code>javac -h &lt;directory&gt;  demoJNI.java</code>    </p>
+<p>注: 在jdk10以前的老版本使用<code>javah</code>命令替代<code>javac -h</code>       </p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/25/NDK-%E7%94%9F%E6%88%90JNI%E5%A4%B4%E6%96%87%E4%BB%B6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/25/NDK-Android-NDK/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wusk">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="webuildthings">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/25/NDK-Android-NDK/" class="post-title-link" itemprop="url">Android NDK</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-12-25 15:55:53 / 修改时间：15:58:03" itemprop="dateCreated datePublished" datetime="2020-12-25T15:55:53+08:00">2020-12-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>为了保密或者提高运行速度, 我们可以使用c/c++实现功能然后使用NDK构建代码生成库提供给Android使用     </p>
+<p>首先来看看<a target="_blank" rel="noopener" href="https://developer.android.google.cn/ndk/downloads">NDK</a>到底是什么？    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Android NDK</span><br><span class="line">Android NDK 是一个工具集    </span><br><span class="line">可让您使用 C 和 C++ 等语言以原生代码实现应用的各个部分    </span><br><span class="line">对于特定类型的应用，这可以帮助您重复使用以这些语言编写的代码库    </span><br><span class="line">&#96;&#96;&#96;    </span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line">NDK在实际使用时是使用&#96;ndk-build&#96;脚本来进行编译的    </span><br><span class="line">&#96;ndk-build&#96;脚本需要两个配置文件&#96;Android.mk&#96; 和 &#96;Application.mk&#96;    </span><br><span class="line">将源码和配置文件放入一个名称为&#96;jni&#96;的文件夹内,执行&#96;ndk-build&#96;命令即可         </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 例程</span><br><span class="line">## 目录结构</span><br></pre></td></tr></table></figure>
+<p>demo/<br>└── jni<br>    ├── Android.mk            /* ndk-build 配置文件     <em>/<br>    ├── Application.mk        /</em> ndk-build 配置文件     <em>/<br>    ├── com_demo_sumJNI.c     /</em> 供java调用的接口文件   <em>/<br>    ├── com_demo_sumJNI.h<br>    ├── sum.c                 /</em> 功能函数文件           */<br>    └── sum.h</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 执行编译</span><br><span class="line">1. &#96;cd demo&#96;</span><br><span class="line">2. &#96;ndk-build&#96;</span><br><span class="line">执行成功后会生成动态库 &#96;libsum.so&#96;  (动态库名字可自己定义)</span><br><span class="line"></span><br><span class="line">## 说明    </span><br><span class="line">将功能模块打包成库提供给Android使用，需要使用ndk-build脚本来构建项目    </span><br><span class="line">ndk-build需要 &#96;Android.mk&#96; 和 &#96;Application.mk&#96; 配置文件    </span><br><span class="line">c&#x2F;c++库文件需要提供jni接口给java层调用</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### sum.c</span><br><span class="line">功能函数    </span><br></pre></td></tr></table></figure>
+<p>int sum(int a, int b){<br>    return (a+b);<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">### com_demo_sumJNI.c </span><br><span class="line">此文件为jni层,java层必须通过jni才能调用c&#x2F;c++库    </span><br><span class="line">jni接口是通过 javac 生成(jdk10以前的老版本用javah命令)      </span><br></pre></td></tr></table></figure>
+<p>#include &lt;jni.h&gt;<br>#include “sum.h”<br>JNIEXPORT jint JNICALL Java_com_demo_sumJNI_sum<br>  (JNIEnv *env, jobject thiz, jint a, jint b)<br>  {<br>      return sum(a,b);<br>  }</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### Android.mk</span><br></pre></td></tr></table></figure>
+<p>include $(CLEAR_VARS)                        # 清除LOCAL_PATH以外的变量<br>LOCAL_MODULE := sum                         # 动态库名称<br>LOCAL_SRC_FILES := sum.c                    # 源文件<br>LOCAL_SRC_FILES += com_demo_sumJNI.c<br>include $(BUILD_SHARED_LIBRARY)             # 生成动态库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">### Application.mk</span><br></pre></td></tr></table></figure>
+<p>APP_ABI := armeabi-v7a arm64-v8a            # 待生成的目标平台<br>APP_PLATFORM := android-16                  # Android API 级别， 最低支持的级别</p>
+<pre><code>
+
+
+
+
+
+
+参考    
+NDK下载 [https://developer.android.google.cn/ndk/downloads](https://developer.android.google.cn/ndk/downloads)    
+NDK官方手册 [https://developer.android.google.cn/ndk/guides](https://developer.android.google.cn/ndk/guides)     
+NDK官方Demo [https://github.com/android/ndk-samples/tree/master](https://github.com/android/ndk-samples/tree/master)      
+JNI官方说明[https://docs.oracle.com/en/java/javase/14/docs/specs/jni/](https://docs.oracle.com/en/java/javase/14/docs/specs/jni/)
+
+
+
+</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2020/09/18/github%E5%8A%A0%E9%80%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -643,348 +964,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/07/20/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-%E4%BB%A3%E7%A0%81%E8%AF%BB%E4%BF%9D%E6%8A%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="wusk">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="webuildthings">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/20/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-%E4%BB%A3%E7%A0%81%E8%AF%BB%E4%BF%9D%E6%8A%A4/" class="post-title-link" itemprop="url">nRF52832开发记录-代码读保护</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-07-20 18:50:23" itemprop="dateCreated datePublished" datetime="2020-07-20T18:50:23+08:00">2020-07-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-06 16:17:28" itemprop="dateModified" datetime="2020-11-06T16:17:28+08:00">2020-11-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nRF52832/" itemprop="url" rel="index"><span itemprop="name">nRF52832</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nRF52832/BLE/" itemprop="url" rel="index"><span itemprop="name">BLE</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>当代码下载到芯片里后，可以使用工具将代码读出来<br>如果不希望别人读取你芯片内的代码，那就需要在下载代码时添加读保护功能<br>Nordic nRFConnect PC版本中的Hex下载工具没有读保护功能<br>Nordic蓝牙芯片的读保护功能需要使用 nrfjprog 工具实现    </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nrfjprog -f NRF52 --recover</span><br><span class="line">nrfjprog -f NRF52 --program xxx.hex --verify</span><br><span class="line">nrfjprog --rbp ALL</span><br></pre></td></tr></table></figure>
-<p>上面操作分别为：    </p>
-<ol>
-<li>解锁并擦除    </li>
-<li>下载    </li>
-<li>添加读保护    </li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/07/15/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-dfu/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="wusk">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="webuildthings">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/15/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-dfu/" class="post-title-link" itemprop="url">nRF52832开发记录-DFU</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-07-15 19:36:12" itemprop="dateCreated datePublished" datetime="2020-07-15T19:36:12+08:00">2020-07-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-03 11:11:43" itemprop="dateModified" datetime="2020-09-03T11:11:43+08:00">2020-09-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nRF52832/" itemprop="url" rel="index"><span itemprop="name">nRF52832</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nRF52832/BLE/" itemprop="url" rel="index"><span itemprop="name">BLE</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>DFU : Device Firmware Update 即固件升级     </p>
-<p>DFU可分为两种:<br><code>dual bank</code>   : 先接收后升级.   优点：升级失败可回滚  缺点:需要额外空间<br><code>single bank</code> : 边接收边升级.    优点: 节约空间   缺点:如果出错不能回滚版本    </p>
-<p>最新SDK(v15.3.0)会根据当前代码空间,自动选择使用<code>dual bank</code>或<code>single bank</code><br>Nordic 支持三种升级方式: UART, USB, BLE    </p>
-<p>Nordic要实现DFU需要两个独立的代码:<code>bootloader</code> 和 <code>app</code><br>下面为使用流程:     </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/15/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-dfu/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/07/05/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-ble%E5%8F%91%E9%80%81%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%8C%85/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="wusk">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="webuildthings">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/05/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-ble%E5%8F%91%E9%80%81%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%8C%85/" class="post-title-link" itemprop="url">nRF52832开发记录-ble发送数据丢包</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-07-05 18:27:41" itemprop="dateCreated datePublished" datetime="2020-07-05T18:27:41+08:00">2020-07-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-02 15:27:40" itemprop="dateModified" datetime="2020-09-02T15:27:40+08:00">2020-09-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nRF52832/" itemprop="url" rel="index"><span itemprop="name">nRF52832</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nRF52832/BLE/" itemprop="url" rel="index"><span itemprop="name">BLE</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在发送大数据时，发现实际发送长度不对，数据没有发送完全。    </p>
-<p>发送逻辑为:<br>发送长度大于MTU时分包发送，第一次只发送MTU长度，<br>待发送完成后接着发送剩余数据，每次最大发送MTU长度        </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/05/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-ble%E5%8F%91%E9%80%81%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%8C%85/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/07/01/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-iOS%E8%93%9D%E7%89%99%E8%BF%9E%E6%8E%A5%E9%97%B4%E9%9A%94%E6%97%B6%E9%97%B4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="wusk">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="webuildthings">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/01/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-iOS%E8%93%9D%E7%89%99%E8%BF%9E%E6%8E%A5%E9%97%B4%E9%9A%94%E6%97%B6%E9%97%B4/" class="post-title-link" itemprop="url">nRF52832开发记录-iOS蓝牙连接间隔时间</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-07-01 18:35:46" itemprop="dateCreated datePublished" datetime="2020-07-01T18:35:46+08:00">2020-07-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-02 13:57:29" itemprop="dateModified" datetime="2020-09-02T13:57:29+08:00">2020-09-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nRF52832/" itemprop="url" rel="index"><span itemprop="name">nRF52832</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nRF52832/BLE/" itemprop="url" rel="index"><span itemprop="name">BLE</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>iOS对蓝牙连接参数有明确要求。之前项目中的连接参数不符合要求，通信过程中会自动断开。<br>最新参数要求请查看 :<br><a target="_blank" rel="noopener" href="https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf">https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf</a>         </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">35.6 Connection Parameters</span><br><span class="line">The connection parameter request may be rejected if it does not comply with all of these rules:</span><br><span class="line">- Bluetooth device latency 30</span><br><span class="line">- 2 seconds connSupervisionTimeout 6 seconds</span><br><span class="line">- Interval Min modulo 15 ms &#x3D;&#x3D; 0</span><br><span class="line">- Interval Min ≥15 ms</span><br><span class="line">- One of the following:</span><br><span class="line">  - Interval Min + 15 ms Interval Max</span><br><span class="line">  - Interval Min &#x3D;&#x3D; Interval Max &#x3D;&#x3D; 15 ms</span><br><span class="line">- Interval Max * (Bluetooth device latency + 1) 2 seconds</span><br><span class="line">- Interval Max * (Bluetooth device latency + 1) * 3 &lt; connSupervisionTimeout</span><br><span class="line">Note that if an accessory requests Interval Min &#x3D;&#x3D; Interval Max &#x3D;&#x3D; 15 ms, some devices will scale the interval to 30 ms to balance power and performance constraints.</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1050,19 +1033,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">32</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -156,6 +156,344 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/07/20/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-%E4%BB%A3%E7%A0%81%E8%AF%BB%E4%BF%9D%E6%8A%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wusk">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="webuildthings">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/20/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-%E4%BB%A3%E7%A0%81%E8%AF%BB%E4%BF%9D%E6%8A%A4/" class="post-title-link" itemprop="url">nRF52832开发记录-代码读保护</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-20 18:50:23" itemprop="dateCreated datePublished" datetime="2020-07-20T18:50:23+08:00">2020-07-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-06 16:17:28" itemprop="dateModified" datetime="2020-11-06T16:17:28+08:00">2020-11-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nRF52832/" itemprop="url" rel="index"><span itemprop="name">nRF52832</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nRF52832/BLE/" itemprop="url" rel="index"><span itemprop="name">BLE</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>当代码下载到芯片里后，可以使用工具将代码读出来<br>如果不希望别人读取你芯片内的代码，那就需要在下载代码时添加读保护功能<br>Nordic nRFConnect PC版本中的Hex下载工具没有读保护功能<br>Nordic蓝牙芯片的读保护功能需要使用 nrfjprog 工具实现    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nrfjprog -f NRF52 --recover</span><br><span class="line">nrfjprog -f NRF52 --program xxx.hex --verify</span><br><span class="line">nrfjprog --rbp ALL</span><br></pre></td></tr></table></figure>
+<p>上面操作分别为：    </p>
+<ol>
+<li>解锁并擦除    </li>
+<li>下载    </li>
+<li>添加读保护    </li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/07/15/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-dfu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wusk">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="webuildthings">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/15/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-dfu/" class="post-title-link" itemprop="url">nRF52832开发记录-DFU</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-15 19:36:12" itemprop="dateCreated datePublished" datetime="2020-07-15T19:36:12+08:00">2020-07-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-03 11:11:43" itemprop="dateModified" datetime="2020-09-03T11:11:43+08:00">2020-09-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nRF52832/" itemprop="url" rel="index"><span itemprop="name">nRF52832</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nRF52832/BLE/" itemprop="url" rel="index"><span itemprop="name">BLE</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>DFU : Device Firmware Update 即固件升级     </p>
+<p>DFU可分为两种:<br><code>dual bank</code>   : 先接收后升级.   优点：升级失败可回滚  缺点:需要额外空间<br><code>single bank</code> : 边接收边升级.    优点: 节约空间   缺点:如果出错不能回滚版本    </p>
+<p>最新SDK(v15.3.0)会根据当前代码空间,自动选择使用<code>dual bank</code>或<code>single bank</code><br>Nordic 支持三种升级方式: UART, USB, BLE    </p>
+<p>Nordic要实现DFU需要两个独立的代码:<code>bootloader</code> 和 <code>app</code><br>下面为使用流程:     </p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/15/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-dfu/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/07/05/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-ble%E5%8F%91%E9%80%81%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%8C%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wusk">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="webuildthings">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/05/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-ble%E5%8F%91%E9%80%81%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%8C%85/" class="post-title-link" itemprop="url">nRF52832开发记录-ble发送数据丢包</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-05 18:27:41" itemprop="dateCreated datePublished" datetime="2020-07-05T18:27:41+08:00">2020-07-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-02 15:27:40" itemprop="dateModified" datetime="2020-09-02T15:27:40+08:00">2020-09-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nRF52832/" itemprop="url" rel="index"><span itemprop="name">nRF52832</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nRF52832/BLE/" itemprop="url" rel="index"><span itemprop="name">BLE</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在发送大数据时，发现实际发送长度不对，数据没有发送完全。    </p>
+<p>发送逻辑为:<br>发送长度大于MTU时分包发送，第一次只发送MTU长度，<br>待发送完成后接着发送剩余数据，每次最大发送MTU长度        </p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/05/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-ble%E5%8F%91%E9%80%81%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%8C%85/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/07/01/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-iOS%E8%93%9D%E7%89%99%E8%BF%9E%E6%8E%A5%E9%97%B4%E9%9A%94%E6%97%B6%E9%97%B4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wusk">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="webuildthings">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/01/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-iOS%E8%93%9D%E7%89%99%E8%BF%9E%E6%8E%A5%E9%97%B4%E9%9A%94%E6%97%B6%E9%97%B4/" class="post-title-link" itemprop="url">nRF52832开发记录-iOS蓝牙连接间隔时间</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-01 18:35:46" itemprop="dateCreated datePublished" datetime="2020-07-01T18:35:46+08:00">2020-07-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-02 13:57:29" itemprop="dateModified" datetime="2020-09-02T13:57:29+08:00">2020-09-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nRF52832/" itemprop="url" rel="index"><span itemprop="name">nRF52832</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nRF52832/BLE/" itemprop="url" rel="index"><span itemprop="name">BLE</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>iOS对蓝牙连接参数有明确要求。之前项目中的连接参数不符合要求，通信过程中会自动断开。<br>最新参数要求请查看 :<br><a target="_blank" rel="noopener" href="https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf">https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf</a>         </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">35.6 Connection Parameters</span><br><span class="line">The connection parameter request may be rejected if it does not comply with all of these rules:</span><br><span class="line">- Bluetooth device latency 30</span><br><span class="line">- 2 seconds connSupervisionTimeout 6 seconds</span><br><span class="line">- Interval Min modulo 15 ms &#x3D;&#x3D; 0</span><br><span class="line">- Interval Min ≥15 ms</span><br><span class="line">- One of the following:</span><br><span class="line">  - Interval Min + 15 ms Interval Max</span><br><span class="line">  - Interval Min &#x3D;&#x3D; Interval Max &#x3D;&#x3D; 15 ms</span><br><span class="line">- Interval Max * (Bluetooth device latency + 1) 2 seconds</span><br><span class="line">- Interval Max * (Bluetooth device latency + 1) * 3 &lt; connSupervisionTimeout</span><br><span class="line">Note that if an accessory requests Interval Min &#x3D;&#x3D; Interval Max &#x3D;&#x3D; 15 ms, some devices will scale the interval to 30 ms to balance power and performance constraints.</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2020/06/15/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-%E4%BD%BF%E7%94%A8%E5%86%85%E9%83%A832k%E6%99%B6%E6%8C%AF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -658,377 +996,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/06/04/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="wusk">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="webuildthings">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/04/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90/" class="post-title-link" itemprop="url">nRF52832开发记录--学习资源</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-06-04 19:10:50" itemprop="dateCreated datePublished" datetime="2020-06-04T19:10:50+08:00">2020-06-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-04 17:23:46" itemprop="dateModified" datetime="2020-11-04T17:23:46+08:00">2020-11-04</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nRF52832/" itemprop="url" rel="index"><span itemprop="name">nRF52832</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nRF52832/BLE/" itemprop="url" rel="index"><span itemprop="name">BLE</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>学习Nordic BLE相关资源</p>
-<h1 id="官网"><a href="#官网" class="headerlink" title="官网"></a>官网</h1><p>官方开发论坛，有官方人员回答问题    </p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://devzone.nordicsemi.com/">https://devzone.nordicsemi.com/</a>    </li>
-</ul>
-<p>官方文档中心，非常全        </p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://infocenter.nordicsemi.com/">https://infocenter.nordicsemi.com/</a>    </li>
-</ul>
-<p>官方博客    </p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://devzone.nordicsemi.com/nordic/nordic-blog/">https://devzone.nordicsemi.com/nordic/nordic-blog/</a></li>
-</ul>
-<p>官方github</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/NordicSemiconductor">https://github.com/NordicSemiconductor</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/NordicPlayground">https://github.com/NordicPlayground</a></li>
-</ul>
-<h1 id="官方FAE"><a href="#官方FAE" class="headerlink" title="官方FAE"></a>官方FAE</h1><p>一个官方FAE的个人博客及github    </p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://jimmywongiot.com/">https://jimmywongiot.com/</a>    </li>
-<li><a target="_blank" rel="noopener" href="https://github.com/jimmywong2003/">https://github.com/jimmywong2003/</a>　　　　</li>
-</ul>
-<h1 id="iint博客"><a href="#iint博客" class="headerlink" title="iint博客"></a>iint博客</h1><p>非常适合初学者的博客，疑似官方    </p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/iini/">https://www.cnblogs.com/iini/</a>    </li>
-</ul>
-<h1 id="BLE协议栈"><a href="#BLE协议栈" class="headerlink" title="BLE协议栈"></a>BLE协议栈</h1><p>BLE协议栈合集，分别讲解为：物理层，链路层，HCI , LACAP , SM ,ATT , GATT, GAP    </p>
-<ul>
-<li><a target="_blank" rel="noopener" href="http://bbs.wireless-tech.cn/d/73-ble">http://bbs.wireless-tech.cn/d/73-ble</a></li>
-</ul>
-<h1 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h1><ul>
-<li><a target="_blank" rel="noopener" href="http://www.sunyouqun.com/">SYQ 博客</a>  BLE相关文章很好</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/06/02/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-RTT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="wusk">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="webuildthings">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/02/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-RTT/" class="post-title-link" itemprop="url">nRF52832开发记录--使用RTT打印调试信息</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-06-02 18:40:23" itemprop="dateCreated datePublished" datetime="2020-06-02T18:40:23+08:00">2020-06-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-02 11:31:52" itemprop="dateModified" datetime="2020-09-02T11:31:52+08:00">2020-09-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nRF52832/" itemprop="url" rel="index"><span itemprop="name">nRF52832</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nRF52832/BLE/" itemprop="url" rel="index"><span itemprop="name">BLE</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>开发时我们可以使用RTT来打印log<br>RTT是SEGGER公司开发的用于嵌入式程序中与用户交互的实时终端。<br>RTT搭配JLink的JLinkRTTViewer软件使用    </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/06/02/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-RTT/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/05/27/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-NFC%E5%81%9A%E6%99%AE%E9%80%9AIO/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="wusk">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="webuildthings">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/27/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-NFC%E5%81%9A%E6%99%AE%E9%80%9AIO/" class="post-title-link" itemprop="url">nRF52832开发记录--NFC做普通IO</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-05-27 18:30:28" itemprop="dateCreated datePublished" datetime="2020-05-27T18:30:28+08:00">2020-05-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-10 10:16:38" itemprop="dateModified" datetime="2020-12-10T10:16:38+08:00">2020-12-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nRF52832/" itemprop="url" rel="index"><span itemprop="name">nRF52832</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nRF52832/BLE/" itemprop="url" rel="index"><span itemprop="name">BLE</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>nRF52 系列有些IO口有多个功能可选，如果不配置则使用默认功能。具体可查看芯片手册。<br>NFC对应的IO口默认为NFC功能,如果要使用普通IO功能则必须手动配置为IO口。<br>nRF52832 NFC 对应的IO口为<br><code>NFC1--&gt;P0.09</code><br><code>NFC2--&gt;P0.10</code><br>要用这两个管脚做普通IO则必须做配置：<br>在IDE中预定义宏<code>CONFIG_NFCT_PINS_AS_GPIOS</code>则将NFC对应的IO口设置为普通IO口.<br>如下图:            </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/05/27/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-NFC%E5%81%9A%E6%99%AE%E9%80%9AIO/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/05/26/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-NordicBLE%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="wusk">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="webuildthings">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/26/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-NordicBLE%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" class="post-title-link" itemprop="url">nRF52832开发记录--Nordic BLE 开发环境搭建</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-05-26 10:21:12" itemprop="dateCreated datePublished" datetime="2020-05-26T10:21:12+08:00">2020-05-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-06 15:05:21" itemprop="dateModified" datetime="2020-11-06T15:05:21+08:00">2020-11-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nRF52832/" itemprop="url" rel="index"><span itemprop="name">nRF52832</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nRF52832/BLE/" itemprop="url" rel="index"><span itemprop="name">BLE</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>nordic支持三种IDE: KEIL, IAR, SES.<br>SES跟Keil非常像，是Segger公司为Nordic芯片量身打造的，对Nordic用户来说，永久免费。<br><a target="_blank" rel="noopener" href="https://infocenter.nordicsemi.com/index.jsp?topic=/ug_gsg_ses/UG/gsg/intro.html&cp=1_1_0">Segger embedded studio开发环境搭建官方文档:</a></p>
-<p><a target="_blank" rel="noopener" href="https://infocenter.nordicsemi.com/index.jsp?topic=/ug_gsg_keil/UG/gsg/intro.html&cp=1_1_1">Keil MDK开发环境搭建官方文档: </a>    </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/05/26/nRF52832%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95-NordicBLE%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1094,19 +1065,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">32</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
