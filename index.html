@@ -181,7 +181,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-12-25 16:10:23 / 修改时间：16:13:56" itemprop="dateCreated datePublished" datetime="2020-12-25T16:10:23+08:00">2020-12-25</time>
+              <time title="创建时间：2020-12-25 16:10:23 / 修改时间：16:34:22" itemprop="dateCreated datePublished" datetime="2020-12-25T16:10:23+08:00">2020-12-25</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,6 +209,7 @@
 
 <h1 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h1><p>make: *** [build-binary.mk:749: obj/local/armeabi-v7a/libSeetaFaceRecognizer.so] Error 1</p>
 <h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>信息提示<code>libSeetaFaceRecognizer.so</code>库出错，那么只有两种可能,要么库本身有问题，要么找不到库<br>库是官方提供的,所以库本身不可能有问题<br>然后仔细检查文件夹，库确定是放在了正确的路径,所以库的位置应该没问题<br>调试工作卡住，不知哪里出了问题<br>最终仔细检测配置文件，才发现问题所在<br>问题出在<code>LOCAL_SRC_FILES += libSeetaFaceRecognizer.so</code><br>将 <code>+=</code> 改为 <code>:=</code>后顺利通过<br>即改为<code>LOCAL_SRC_FILES := libSeetaFaceRecognizer.so</code><br><code>+=</code>是追加的意思，<code>:=</code>是初始化的意思<br>但在添加c/c++源文件时不使用<code>:=</code> 而 直接使用 <code>+=</code>却没有问题,这个还不知道具体原因    </p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><code>+=</code>和<code>:=</code>需要注意    </p>
 
       
     </div>
@@ -331,7 +332,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-12-25 16:06:05 / 修改时间：16:07:51" itemprop="dateCreated datePublished" datetime="2020-12-25T16:06:05+08:00">2020-12-25</time>
+              <time title="创建时间：2020-12-25 16:06:05 / 修改时间：16:30:01" itemprop="dateCreated datePublished" datetime="2020-12-25T16:06:05+08:00">2020-12-25</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
